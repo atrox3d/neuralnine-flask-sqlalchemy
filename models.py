@@ -1,4 +1,4 @@
-import flask_app
+import flask_factory
 
-db = flask_app.get_db()
+db = flask_factory.get_db()
 

@@ -1,6 +1,6 @@
-import flask_app
+import flask_factory
 import models
 
-app = flask_app.get_app()
+app = flask_factory.get_app()
 
 app.run(debug=True)

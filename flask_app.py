@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 class FlaskAppAlreadyInitializedException(Exception):
     pass
+
 
 class FlaskApp:
     __instance: 'FlaskApp' = None
@@ -26,13 +28,6 @@ class FlaskApp:
 
     def get_app(self) -> Flask:
         return self.__app
-    
+
     def get_db(self) -> SQLAlchemy:
         return self.__db
-
-def get_app(name:str=__name__, dbpath:str='data.db') -> Flask:
-    return FlaskApp.get_instance(name, dbpath).get_app()
-
-def get_db() -> SQLAlchemy:
-    return FlaskApp.get_instance().get_db()
-
