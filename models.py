@@ -17,6 +17,7 @@ class Person(db.Model):
     
     def dict(self):
         return {
+            'pid': self.pid,
             'name': self.name,
             'age': self.age,
             'job': self.job

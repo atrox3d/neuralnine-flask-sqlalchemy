@@ -25,3 +25,14 @@ def index():
     elif request.method == 'GET':
         return get_people_json()
 
+@app.delete('/delete')
+def delete():
+    print(request.json)
+    person:Person = Person.query.get(request.json['pid'])
+    if person:
+        db.session.delete(person)
+        db.session.commit()
+        return get_people_json()
+    else:
+        return jsonify({'error': f'cannot find {request.json["pid"]}'})
+    
