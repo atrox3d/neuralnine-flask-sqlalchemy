@@ -3,23 +3,21 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 class FlaskApp:
-    __name: str = None
-    __dbpath: str = None
-    __app: Flask = None
-    __db: SQLAlchemy = None
+    __initialized: bool = False
 
     def __init__(self, name:str, dbpath:str='data.db') -> None:
-        if FlaskApp.__app is None:
-            FlaskApp.__name = name
-            FlaskApp.__app = Flask(FlaskApp.__name)
-            FlaskApp.__app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{FlaskApp.__dbpath}'
-            FlaskApp.__db = SQLAlchemy(FlaskApp.__app)
-        else:
-            raise ValueError(f'{FlaskApp.__app} is already initialized')
+        if self.__initialized:
+            raise ValueError(f'FlaskApp is already initialized')
+        self.__name = name
+        self.__dbpath = dbpath
+        self.__app = Flask(self.__name)
+        self.__app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{self.__dbpath}'
+        self.__db = SQLAlchemy(self.__app)
+        FlaskApp.__initialized = True
 
-    def get_app(self):
-        return FlaskApp.__app
+    def app(self):
+        return self.__app
 
-    def get_db(self):
-        return FlaskApp.__db
+    def db(self):
+        return self.__db
 
