@@ -12,6 +12,12 @@ class Person(db.Model):
     age = sa.Column(sa.Integer)
     job = sa.Column(sa.Text)
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> dict:
         return f'{self.name} ({self.age}): {self.job}'
-
+    
+    def dict(self):
+        return {
+            'name': self.name,
+            'age': self.age,
+            'job': self.job
+        }
