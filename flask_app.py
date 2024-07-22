@@ -7,7 +7,7 @@ class FlaskAppAlreadyInitializedException(Exception):
 class FlaskApp:
     __instance: 'FlaskApp' = None
 
-    def __init__(self, name:str, dbpath:str='data.db') -> None:
+    def __init__(self, name:str=__name__, dbpath:str='data.db') -> None:
         if self.__instance:
             raise FlaskAppAlreadyInitializedException(f'FlaskApp is already initialized')
         self.__name = name
@@ -17,9 +17,22 @@ class FlaskApp:
         self.__db = SQLAlchemy(self.__app)
         FlaskApp.__instance = self
 
-    def app(self):
-        return self.__app
+    @classmethod
+    def get_instance(cls, name:str=__name__, dbpath:str='data.db') -> 'FlaskApp':
+        try:
+            return cls(name, dbpath)
+        except FlaskAppAlreadyInitializedException:
+            return cls.__instance
 
-    def db(self):
+    def get_app(self) -> Flask:
+        return self.__app
+    
+    def get_db(self) -> SQLAlchemy:
         return self.__db
+
+def get_app(name:str=__name__, dbpath:str='data.db') -> Flask:
+    return FlaskApp.get_instance(name, dbpath).get_app()
+
+def get_db() -> SQLAlchemy:
+    return FlaskApp.get_instance().get_db()
 
