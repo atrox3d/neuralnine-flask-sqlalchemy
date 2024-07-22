@@ -1,25 +1,25 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import sqlalchemy
-
-__app: Flask = None
-__db: SQLAlchemy = None
-
-def get_app(name:str=__name__):
-    global __app 
-    
-    if __app is None:
-        __app= Flask(name)
-    return __app
-
-def get_db(name:str=__name__):
-    global __db
-
-    if __db is None:
-        app = get_app(name)
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
-        __db = SQLAlchemy(app)
-    return __db
 
 
+class FlaskApp:
+    __name: str = None
+    __dbpath: str = None
+    __app: Flask = None
+    __db: SQLAlchemy = None
+
+    def __init__(self, name:str, dbpath:str='data.db') -> None:
+        if FlaskApp.__app is None:
+            FlaskApp.__name = name
+            FlaskApp.__app = Flask(FlaskApp.__name)
+            FlaskApp.__app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{FlaskApp.__dbpath}'
+            FlaskApp.__db = SQLAlchemy(FlaskApp.__app)
+        else:
+            raise ValueError(f'{FlaskApp.__app} is already initialized')
+
+    def get_app(self):
+        return FlaskApp.__app
+
+    def get_db(self):
+        return FlaskApp.__db
 
