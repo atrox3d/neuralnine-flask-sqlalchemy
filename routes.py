@@ -7,5 +7,5 @@ app = flask_factory.get_app()
 @app.route('/')
 def index():
     people = Person.query.all()
-    return jsonify(people)
+    return str(people)
 
