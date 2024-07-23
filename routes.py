@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, redirect, request, url_for
 import flask_factory as ff
 from models import Person
 from sqlalchemy import exc
@@ -16,9 +16,10 @@ def index():
 
 @app.post('/add')
 def add():
-    print(request.json)
+    print(f'{request.json = }')
     person = Person(**request.json)
     try:
+        print(f'adding {person}')
         db.session.add(person)
         db.session.commit()
         return get_people_json()
