@@ -3,10 +3,13 @@ import json
 
 SERVER = 'http://127.0.0.1:5000'
 
-def list_people():
+def get_people():
     response = requests.get(f'{SERVER}/')
     response.raise_for_status()
-    print(json.dumps(response.json(), indent=2))
+    return response.json()
+
+def print_people(people):
+    print(json.dumps(people, indent=2))
 
 def add_people(name, age, job):
     payload = dict(name=name, age=age, job=job)
@@ -16,4 +19,4 @@ def add_people(name, age, job):
 
 
 add_people('brian', 12, 'cat')
-list_people()
+print_people(get_people())
