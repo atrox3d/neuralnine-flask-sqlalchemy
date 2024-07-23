@@ -38,4 +38,17 @@ def delete():
         return get_people_json()
     else:
         return jsonify({'error': f'cannot find {request.json["pid"]}'})
-    
+
+# it is possible to have multiple routes to the same endpoint
+@app.get('/login')
+def login_get():
+    return 'login_get'
+
+# this is ignored
+@app.get('/login')
+def login_get2():
+    return 'login_get2'
+
+@app.post('/login')
+def login_post():
+    return 'login_post'
