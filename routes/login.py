@@ -18,12 +18,12 @@ db = ff.get_db()
 
 @app.post('/signup')
 def signup():
-    return 'signup'
+    return {'signup': True}
 
 @app.post('/login')
 def login():
-    return 'login'
+    return {'login': True}
 
 @app.post('/logout')
 def logout():
-    return 'login'
+    return {'logout': True}
