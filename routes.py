@@ -12,7 +12,9 @@ def get_people_json():
 
 @app.get('/')
 def index():
-    return get_people_json()
+    people = get_people_json()
+    # print(len(people.json))
+    return people
 
 @app.post('/add')
 def add():
