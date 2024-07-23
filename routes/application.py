@@ -1,6 +1,6 @@
 from flask import jsonify, redirect, request, url_for
 import flask_factory as ff
-from models import Person
+from models.person import Person
 from sqlalchemy import exc
 
 app = ff.get_app()

@@ -1,7 +1,7 @@
 from flask_migrate import Migrate
 
 import flask_factory
-from models import Person
+from models.person import Person
 # import routes.application as application
 from routes import application, login
 
