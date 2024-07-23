@@ -1,7 +1,6 @@
 from flask_migrate import Migrate
 
 import flask_factory
-from models.person import Person
 # import routes.application as application
 from routes import application, login
 
@@ -12,6 +11,8 @@ db = flask_factory.get_db()
     # db.drop_all()
     # db.create_all()
 
+from models.person import Person
+from models.user import User
 migrate = Migrate(app, db)
 
 if __name__ == '__main__':
