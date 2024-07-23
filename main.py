@@ -11,6 +11,7 @@ db = flask_factory.get_db()
     # db.drop_all()
     # db.create_all()
 
+# imports for migration
 from models.person import Person
 from models.user import User
 migrate = Migrate(app, db)
