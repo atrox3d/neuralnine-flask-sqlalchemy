@@ -10,7 +10,7 @@ def get_people_json():
     people = Person.query.all()
     return jsonify([person.dict() for person in people])
 
-@app.route('/', methods=['GET'])
+@app.get('/')
 def index():
     return get_people_json()
 
