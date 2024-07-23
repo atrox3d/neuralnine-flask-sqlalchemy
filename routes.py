@@ -10,20 +10,20 @@ def get_people_json():
     people = Person.query.all()
     return jsonify([person.dict() for person in people])
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    if request.method == 'POST':
-        print(request.json)
-        person = Person(**request.json)
-        try:
-            db.session.add(person)
-            db.session.commit()
-            return get_people_json()
-        except exc.IntegrityError as ie:
-            return jsonify({'error': str(ie)})
+    return get_people_json()
 
-    elif request.method == 'GET':
+@app.post('/add')
+def add():
+    print(request.json)
+    person = Person(**request.json)
+    try:
+        db.session.add(person)
+        db.session.commit()
         return get_people_json()
+    except exc.IntegrityError as ie:
+        return jsonify({'error': str(ie)})
 
 @app.delete('/delete')
 def delete():
