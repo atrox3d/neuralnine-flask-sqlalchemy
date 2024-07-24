@@ -18,6 +18,14 @@ class SingletonStore:
         if key in store:
             raise KeyError(f'key {key} already present with value={store[key]}')
         store[key] = value
+    
+    @classmethod
+    def items(cls):
+        return cls._instances.items()
+    
+    @classmethod
+    def dict(cls):
+        return cls._instances
 
     @classmethod
     def add_values(cls, **kwargs):
@@ -41,5 +49,8 @@ if __name__ == '__main__':
         SingletonStore.add('x', 'wooooo')
     except KeyError as ke:
         print(ke)
+
+    print(SingletonStore.items())
+    print(SingletonStore.dict())
 
 
