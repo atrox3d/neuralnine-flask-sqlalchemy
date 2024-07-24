@@ -12,11 +12,11 @@ class FlaskApp:
     def __init__(self, name:str=__name__, dbpath:str='data.db') -> None:
         if self.__instance:
             raise FlaskAppAlreadyInitializedException(f'FlaskApp is already initialized')
-        self.__name = name
-        self.__dbpath = dbpath
-        self.__app = Flask(self.__name)
-        self.__app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{self.__dbpath}'
-        self.__db = SQLAlchemy(self.__app)
+        self.name = name
+        self.dbpath = dbpath
+        self.app = Flask(self.name)
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{self.dbpath}'
+        self.db = SQLAlchemy(self.app)
         FlaskApp.__instance = self
 
     @classmethod
@@ -27,7 +27,7 @@ class FlaskApp:
             return cls.__instance
 
     def get_app(self) -> Flask:
-        return self.__app
+        return self.app
 
     def get_db(self) -> SQLAlchemy:
-        return self.__db
+        return self.db
