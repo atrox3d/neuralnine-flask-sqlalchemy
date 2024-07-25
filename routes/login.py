@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-import flask_factory as ff
-from models.person import Person
 from sqlalchemy import exc
+
+from models.user import User
 
 def register_routes(app:Flask, db:SQLAlchemy):
     @app.post('/signup')

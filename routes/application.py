@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from models.person import Person
 from sqlalchemy import exc
+
+from models.person import Person
 
 def register_routes(app:Flask, db:SQLAlchemy):
 

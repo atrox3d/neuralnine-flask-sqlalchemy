@@ -2,30 +2,27 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 
-import flask_factory
-from singleton_store import SingletonStore as store
-
-# app = flask_factory.get_app()
-# db = flask_factory.get_db()
-
-app = Flask(__name__)
-store.add('app', app)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///data.db'
-db = SQLAlchemy(app)
-store.add('db', db)
+from models.db import db
+# imports for migration
+from models.person import Person
+from models.user import User
 
 from routes import application, login
 
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///data.db'
+# db = SQLAlchemy(app)
+db.init_app(app)
+
 app.secret_key = 'SECRETKEY'
 login_manager = LoginManager()
-store.add('login_manager', login_manager)
 login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(uid)
-
 
 # bcrypt =
 
@@ -33,9 +30,9 @@ def load_user(uid):
     # db.drop_all()
     # db.create_all()
 
-# imports for migration
-from models.person import Person
-from models.user import User
+application.register_routes(app, db)
+login.register_routes(app, db)
+
 migrate = Migrate(app, db)
 
 if __name__ == '__main__':

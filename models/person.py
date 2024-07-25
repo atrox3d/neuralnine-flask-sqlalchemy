@@ -1,12 +1,6 @@
 import sqlalchemy as sa         # this is really horrible, there is no intellisense with SQLAlchemy module
 
-# import flask_factory
-# db = flask_factory.get_db()
-
-from singleton_store import SingletonStore as store
-
-db = store.get('db')
-
+from .db import db
 
 class Person(db.Model):
 
