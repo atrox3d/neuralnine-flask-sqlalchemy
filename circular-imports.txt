@@ -1,0 +1,82 @@
+# HOW TO AVOID CIRCULAR IMPORTS
+
+#
+# CIRCULAR IMPORTS: each module needs the other
+#
+main.py:
+    - create app, db, loginmanager, bcrypt, ...
+    import routes:
+        from main import app
+            - import routes
+                from main import app
+                    ...
+#
+# USING FACTORY AND STORE:
+# factory is an indirect way to access app, db, ...
+# factotry creates and stores and retrieves objects
+#
+main.py: 
+    import factory:
+        import store
+        - create app, db, loginmanager, bcrypt, ...
+        - use store: 
+            store app, db, loginmanager bcrypt, ...
+    import routes/*.py: 
+        import store
+            - use store:
+                get app, db, loginmanager, bcrypt, ...
+                use app, db, loginmanager, bcrypt, ...
+    import store
+        get app, db, loginmanager, bcrypt, ...
+        use app, db, loginmanager, bcrypt, ...
+#
+# DECLARING ROUTES INSIDE FUNCTION
+# routes are declared inside a function, they are not
+#       initialized during import
+#       the function accepts app, db, ... as arguments
+#
+main.py:
+    import routes/*.py, ...
+        import models
+        def function(app, db, loginmanager, bcrypt, ...)
+            - use app: 
+                @app.route...
+                    use db, login, bcrypt
+    
+    - create app, db, loginmanager, bcrypt, ...
+    - configure app, db, loginmanager, bcrypt, ...
+    - call routes::function(app, db, loginmanager, bcrypt, ...)
+#
+# MODULE AS SINGLETON CONTAINER
+# 
+# using module's variables
+# configuration is hardcoded
+# initialization is made on first import
+# all dependencies are decided by the order
+#
+singleton.py
+    - create app: db(app), loginmanager(app, db?), bcrypt(app), ...
+#
+# MODULE AS SINGLETON CLASS
+#
+# each accessor must know dependencies
+#
+singleton.py
+    # declare "private" vars
+    __app = __db = __loginmanager = __bcrypt = None
+    # create accessors
+    def get_app():
+        return __app if __app is not None else new app()
+    
+    def get_db():
+        if __db is None:
+            return new db(get_app())
+        else
+            return __db
+
+
+- initialize objects in main or config module/class/function
+- configure objects in main
+- initialize routes
+    - always use some accessor method to get the objects
+
