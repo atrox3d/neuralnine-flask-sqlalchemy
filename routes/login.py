@@ -3,9 +3,10 @@ import flask_factory as ff
 from models.person import Person
 from sqlalchemy import exc
 
-app = ff.get_app()
-db = ff.get_db()
-
+# app = ff.get_app()
+# db = ff.get_db()
+from singleton_store import SingletonStore as store
+app = store.get('app')
 # it is possible to have multiple routes to the same endpoint
 # @app.get('/login')
 # def login_get():

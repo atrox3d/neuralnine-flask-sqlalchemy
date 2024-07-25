@@ -1,10 +1,14 @@
 from flask import jsonify, redirect, request, url_for
-import flask_factory as ff
 from models.person import Person
 from sqlalchemy import exc
 
-app = ff.get_app()
-db = ff.get_db()
+# import flask_factory as ff
+from singleton_store import SingletonStore as store
+
+# app = ff.get_app()
+# db = ff.get_db()
+app = store.get('app')
+db = store.get('db')
 
 def get_people_json():
     people = Person.query.all()
