@@ -3,14 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from models.person import Person
 from sqlalchemy import exc
 
-# import flask_factory as ff
-from singleton_store import SingletonStore as store
-
-# app = ff.get_app()
-# db = ff.get_db()
-# app = store.get('app')
-# db = store.get('db')
-
 def register_routes(app:Flask, db:SQLAlchemy):
 
     def get_people_json():
