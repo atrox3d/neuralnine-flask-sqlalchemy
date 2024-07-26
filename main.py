@@ -17,11 +17,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///data.db'
 db.init_app(app)
 
 app.secret_key = 'SECRETKEY'
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
 @login_manager.user_loader
 def load_user(uid):
-    return User.query.get(uid)
+    user = User.query.get(uid)
+    return user
 
 bcrypt = Bcrypt(app)
 

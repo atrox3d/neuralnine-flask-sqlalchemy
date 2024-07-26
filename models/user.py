@@ -13,6 +13,9 @@ class User(db.Model, UserMixin):
     role = sa.Column(sa.String)
     description = sa.Column(sa.String)
 
+    def get_id(self):
+        return self.uid
+
     def __repr__(self) -> dict:
         return f'{self.username} ({self.role})'
     
