@@ -9,9 +9,10 @@ from models.person import Person
 from models.user import User
 
 from routes import application, login
+import the_app
 
-app = Flask(__name__)
-
+# app = Flask('__name__')
+app = the_app.app(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///data.db'
 db.init_app(app)
 
