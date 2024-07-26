@@ -30,6 +30,7 @@ class TestClass:
         response = self.client.get("/")
         print(response.json)
         print(self.app.url_map)
+        return
         for rule in self.app.url_map.iter_rules():
             print(rule)
             print(rule.methods)
