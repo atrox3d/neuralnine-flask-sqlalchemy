@@ -1,7 +1,7 @@
 import sqlalchemy as sa         # this is really horrible, there is no intellisense with SQLAlchemy module
 from flask_login import UserMixin
 
-from .db import db
+from .the_db import db
 
 class User(db.Model, UserMixin):
 

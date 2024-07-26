@@ -1,6 +1,6 @@
 import sqlalchemy as sa         # this is really horrible, there is no intellisense with SQLAlchemy module
 
-from .db import db
+from .the_db import db
 
 class Person(db.Model):
 
