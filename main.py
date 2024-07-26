@@ -8,7 +8,7 @@ from models.the_db import db
 from models.person import Person
 from models.user import User
 
-from routes import application, login
+from routes import application, login, sessions
 import the_app
 
 # app = Flask('__name__')
@@ -31,6 +31,7 @@ bcrypt = Bcrypt(app)
 
 application.register_routes(app, db)
 login.register_routes(app, db, bcrypt)
+sessions.register_routes(app, db)
 
 migrate = Migrate(app, db)
 
