@@ -15,7 +15,7 @@ print(args)
 SERVER = 'http://127.0.0.1:5000'
 
 def get_people():
-    response = requests.get(f'{SERVER}/')
+    response = requests.get(f'{SERVER}/people')
     response.raise_for_status()
     return response.json()
 

@@ -23,14 +23,14 @@ login_manager.init_app(app)
 def load_user(uid):
     return User.query.get(uid)
 
-# bcrypt =
+bcrypt = Bcrypt(app)
 
 # with app.app_context():
     # db.drop_all()
     # db.create_all()
 
 application.register_routes(app, db)
-login.register_routes(app, db)
+login.register_routes(app, db, bcrypt)
 
 migrate = Migrate(app, db)
 

@@ -10,8 +10,8 @@ def register_routes(app:Flask, db:SQLAlchemy):
         people = Person.query.all()
         return jsonify([person.dict() for person in people])
 
-    @app.get('/')
-    def index():
+    @app.get('/people')
+    def get_people():
         people = get_people_json()
         # print(len(people.json))
         return people

@@ -1,10 +1,13 @@
+import bcrypt
 from flask import Flask, jsonify, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
+from flask_bcrypt import Bcrypt
+from flask_login import login_user, logout_user, current_user, login_required
 
 from models.user import User
 
-def register_routes(app:Flask, db:SQLAlchemy):
+def register_routes(app:Flask, db:SQLAlchemy, bcrypt:Bcrypt):
     @app.post('/signup')
     def signup():
         return {'signup': True}
