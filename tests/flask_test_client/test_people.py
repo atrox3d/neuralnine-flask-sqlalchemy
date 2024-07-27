@@ -31,23 +31,23 @@ class TestPeople:
 
     def teardown_method(self):
         pass
-    
-    def test_get_people(self):
-        response = self.client.get("/people")
-        assert response.status_code == 200
-        assert isinstance(response.json, list)
-        assert len(response.json) == 0
-        # assert isinstance(response.json[0], dict)
-        # assert tuple(response.json[0].keys()) == ('age', 'job', 'name', 'pid')
-        # print(response.json)
-        # print(self.app.url_map)
-        # return
 
     def add_people(self, name, age, job):
         payload = dict(name=name, age=age, job=job)
         response = self.client.post('/add', json=payload)
         return response
-    
+
+    def delete_people(self, pid):
+        payload = dict(pid=pid)
+        response = self.client.delete('/delete', json=payload)
+        return response
+        
+    def test_get_people(self):
+        response = self.client.get("/people")
+        assert response.status_code == 200
+        assert isinstance(response.json, list)
+        assert len(response.json) == 0
+
     def test_add_people(self):
         payload = dict(name='test', age=0, job='nojob')
         response = self.add_people(**payload)
@@ -58,6 +58,23 @@ class TestPeople:
         rperson = Person(**response.json[0])
         assert rperson.dict() == person.dict()
         assert repr(rperson) == repr(person)
+
+        response = self.client.get("/people")
+        assert response.status_code == 200
+        assert len(response.json) == 1
+
+    def test_delete_people(self):
+        payload = dict(name='test', age=0, job='nojob')
+        response = self.add_people(**payload)
+        assert response.status_code == 200
+
+        response = self.client.get("/people")
+        assert response.status_code == 200
+        assert len(response.json) == 1
+
+        response = self.delete_people(1)
+        assert response.status_code == 200
+        assert len(response.json) == 0
 
     def nope(self):
         for rule in self.app.url_map.iter_rules():
@@ -71,64 +88,3 @@ class TestPeople:
         assert len(stocks_json) == 3
 
 
-    # def test_get_stock_by_bad_ticker_integration(self):
-
-    #     response = self.client.get(
-    #         f"/stock/TSLA/",
-    #         content_type="application/json"
-    #     )
-
-    #     assert response.status_code == 200
-    #     assert response.json == None
-
-
-    # def test_add_stock_integration(self):
-
-    # with open(self.test_stock ) as f:
-    #     stock_data = json.load(f)
-
-    #     data_json = json.dumps(stock_data)
-
-
-    # def test_get_stock_by_ticker_conversion_integration(self):
-
-    #     response = self.client.get(
-    #         f"/stock/conversion/APPL/GBP",
-    #         content_type="application/json"
-    #     )
-
-
-    # def test_add_stock_duplicate_rejected(self):
-
-    #     prices = [
-    #         {
-    #             "date": "2022-01-01",
-    #             "value": 201
-    #         },
-    #         {
-    #             "date": "2022-01-02",
-    #             "value": 199
-    #         },
-    #         {
-    #             "date": "2022-01-03",
-    #             "value": 205
-    #         },
-    #         {
-    #             "date": "2022-01-04",
-    #             "value": 205
-    #         },
-    #         {
-    #             "date": "2022-01-05",
-    #             "value": 206
-    #         }
-    #     ]
-
-    #     stock =  Stock("dave","Microsoft","MSFT",prices)
-    #     data_json = stock.__dict__
-        
-    #     data_json = json.dumps(data_json)
-    #     response = self.client.post(
-    #         "/add-stock/",
-    #         data = data_json,
-    #         content_type = "application/json"
-    #     )
