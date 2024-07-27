@@ -2,14 +2,29 @@ import json
 import main
 
 # from app.models import Stock
-
+from models.the_db import db
+from main import setup_app
 
 class TestPeople:
 
     @classmethod
     def setup_method(self):
-        self.app = main.app
-        self.app.config["TESTING"] = True
+        # self.app = main.app
+        # self.db = main.db
+        # self.app.config["TESTING"] = True
+        # self.app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///test_data.db'
+        # self.db.init_app(self.app)
+        self.db = db
+        self.app = setup_app(__name__,
+                            self.db,
+                            SQLALCHEMY_DATABASE_URI=f'sqlite:///test_data.db',
+                            SECRET_KEY='SECRETKEY'
+                             )
+
+        # print(self.app.config)
+        with self.app.app_context():
+            self.db.drop_all()
+            self.db.create_all()
 
         with self.app.test_client() as client:
             self.client = client
@@ -22,12 +37,14 @@ class TestPeople:
         response = self.client.get("/people")
         assert response.status_code == 200
         assert isinstance(response.json, list)
-        assert len(response.json) > 0
-        assert isinstance(response.json[0], dict)
-        assert tuple(response.json[0].keys()) == ('age', 'job', 'name', 'pid')
+        assert len(response.json) == 0
+        # assert isinstance(response.json[0], dict)
+        # assert tuple(response.json[0].keys()) == ('age', 'job', 'name', 'pid')
         # print(response.json)
         # print(self.app.url_map)
         # return
+
+    def test_add_people(): pass
     
     def nope(self):
         for rule in self.app.url_map.iter_rules():
