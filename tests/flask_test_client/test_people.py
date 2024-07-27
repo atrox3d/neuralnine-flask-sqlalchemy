@@ -43,9 +43,14 @@ class TestPeople:
         # print(self.app.url_map)
         # return
 
+    def add_people(self, name, age, job):
+        payload = dict(name=name, age=age, job=job)
+        response = self.client.post('/add', json=payload)
+        return response
+    
     def test_add_people(self):
         payload = dict(name='test', age=0, job='nojob')
-        response = self.client.post('/add', json=payload)
+        response = self.add_people(**payload)
         assert response.status_code == 200
         assert len(response.json) == 1
 
