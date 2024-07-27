@@ -34,10 +34,8 @@ class TestLogin:
         with cls.app.test_client() as client:
             cls.client = client
 
-    # @classmethod
-    # def teardown_class(cls):
-    #     del cls.app
-    #     del cls.db
+    def teardown_class(cls):
+        pass
 
     def setup_method(self):
         self.USERNAME = 'testuser'
@@ -55,6 +53,7 @@ class TestLogin:
         with self.app.app_context():
             self.db.drop_all()
             self.db.create_all()
+        self.add_user()
     
     def add_user(self):
         print(f'SETUP_METOD | adding user')
@@ -76,43 +75,23 @@ class TestLogin:
         assert response.json == self.NO_USERS
 
     def test_login_id_1(self):
-        with self.client.session_transaction():
-            response = self.client.get("/")
-            assert response.status_code == 200
-            assert response.json == self.NO_USERS
-
-            self.add_user()
-
-            response = self.client.get("/login/1")
-            assert response.status_code == 200
-            assert response.json == {'login': self.TEST_RESPONSE }
-
-            response = self.client.get("/")
-            assert response.status_code == 200
-            # assert response.json == self.NO_USERS
-            print(response.json)
-            assert response.json == {'index': self.TEST_RESPONSE}
-
-
-    def test_login_id_1_without_session(self):
-        # self.client.session_transaction()
-        response = self.client.get("/")
-        assert response.status_code == 200
-        assert response.json == self.NO_USERS
-
-        self.add_user()
-
         response = self.client.get("/login/1")
         assert response.status_code == 200
         assert response.json == {'login': self.TEST_RESPONSE }
 
+    def test_user_logged_in(self):
         response = self.client.get("/")
         assert response.status_code == 200
-        # assert response.json == self.NO_USERS
         print(response.json)
         assert response.json == {'index': self.TEST_RESPONSE}
 
-
-    #     assert isinstance(response.json, list)
-    #     assert len(response.json) == 0
-
+    def test_logut(self):
+        response = self.client.get('/logout')
+        assert response.status_code == 200
+        print(response.json)
+        assert response.json == {'logout': 'Success'}
+        
+    def test_no_users_logged_again(self):
+        response = self.client.get("/")
+        assert response.status_code == 200
+        assert response.json == self.NO_USERS

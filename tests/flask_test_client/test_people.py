@@ -35,8 +35,7 @@ class TestPeople:
 
     @classmethod
     def teardown_class(cls):
-        del cls.app
-        del cls.db
+        pass
 
     def setup_method(self):
         print(f'SETUP_METOD | resetting test db')
