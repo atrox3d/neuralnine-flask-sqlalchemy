@@ -1,8 +1,3 @@
-import json
-import main
-import sys
-
-# from app.models import Stock
 from models.the_db import db
 from models.person import Person
 from main import setup_app
@@ -90,16 +85,3 @@ class TestPeople:
         response = self.delete_people(1)
         assert response.status_code == 200
         assert len(response.json) == 0
-
-    def nope(self):
-        for rule in self.app.url_map.iter_rules():
-            print(rule)
-            print(rule.methods)
-        return
-        response = self.client.get("/stock/all_stocks/")
-
-        assert response.status_code == 200
-        stocks_json = response.json
-        assert len(stocks_json) == 3
-
-

@@ -1,8 +1,3 @@
-import json
-import main
-import sys
-
-# from app.models import Stock
 from models.the_db import db
 from models.user import User
 from main import setup_app
