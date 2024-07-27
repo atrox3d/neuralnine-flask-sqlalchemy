@@ -1,10 +1,20 @@
 import json
 import main
+import sys
 
 # from app.models import Stock
 from models.the_db import db
 from models.person import Person
 from main import setup_app
+from main import the_app
+
+def setup_module(module):
+    print(f'SETUP_MODULE | setting up MODULE {module}')
+
+def teardown_module(module):
+    print(f'TEARDOWN_MODULE | tearing down MODULE {module}')
+    print(f'TEARDOWN_MODULE | resetting app')
+    the_app.reset()
 
 class TestPeople:
 
@@ -23,6 +33,11 @@ class TestPeople:
         with cls.app.test_client() as client:
             cls.client = client
 
+    @classmethod
+    def teardown_class(cls):
+        del cls.app
+        del cls.db
+
     def setup_method(self):
         print(f'SETUP_METOD | resetting test db')
         with self.app.app_context():
@@ -31,6 +46,7 @@ class TestPeople:
 
     def teardown_method(self):
         pass
+
 
     def add_people(self, name, age, job):
         payload = dict(name=name, age=age, job=job)

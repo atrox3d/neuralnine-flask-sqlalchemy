@@ -16,6 +16,10 @@ def app(name:str=None, *args, **kwargs) -> Flask:
         else:
             raise ValueError('app already initialized')
 
+def reset():
+    global __app
+    __app = None
+
 if __name__ == '__main__':
 
     try:

@@ -12,7 +12,7 @@ def register_routes(app:Flask, db:SQLAlchemy, bcrypt:Bcrypt):
     @app.get('/')
     def index():
         if current_user.is_authenticated:
-            return current_user.dict()
+            return {'index': current_user.dict()}
         else:
             return {'index': 'no user'}
 

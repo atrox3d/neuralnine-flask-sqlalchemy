@@ -67,8 +67,5 @@ def default_app():
     return app
 
 if __name__ == '__main__':
-    app = setup_app(__name__,
-                    SQLALCHEMY_DATABASE_URI=f'sqlite:///data.db',
-                    SECRET_KEY='SECRETKEY'
-                    )
+    app = default_app()
     app.run(debug=True)
