@@ -4,11 +4,7 @@ import main
 # from app.models import Stock
 
 
-class TestClass:
-
-    # db_path = 'project/Hands-on-Test-Driven-Development-TDD-using-Python/db/stock_db.json'
-    # test_stock = 'project/Hands-on-Test-Driven-Development-TDD-using-Python/db/stock_db.json'
-    # db_path = 'db/stock_db.json'
+class TestPeople:
 
     @classmethod
     def setup_method(self):
@@ -20,17 +16,20 @@ class TestClass:
 
     @classmethod
     def teardown_method(self):
-        # original_stocks = self.return_original_stocks(self)
-# 
-        # with open(self.db_path,'w') as json_file:
-            # json.dump(original_stocks,json_file,indent=4,separators= (',',': '))
         pass
     
-    def test_get_all_stocks(self):
-        response = self.client.get("/")
-        print(response.json)
-        print(self.app.url_map)
-        return
+    def test_get_people(self):
+        response = self.client.get("/people")
+        assert response.status_code == 200
+        assert isinstance(response.json, list)
+        assert len(response.json) > 0
+        assert isinstance(response.json[0], dict)
+        assert tuple(response.json[0].keys()) == ('age', 'job', 'name', 'pid')
+        # print(response.json)
+        # print(self.app.url_map)
+        # return
+    
+    def nope(self):
         for rule in self.app.url_map.iter_rules():
             print(rule)
             print(rule.methods)
